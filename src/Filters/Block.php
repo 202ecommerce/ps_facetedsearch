@@ -1039,7 +1039,7 @@ class Block
                 continue;
             }
 
-            if ($categoryCount && empty($categoriesId) === false && in_array($idCategory, $categoriesId) === false) {
+            if ($categoryCount && in_array($idCategory, $categoriesId) === false) {
                 continue;
             }
 
