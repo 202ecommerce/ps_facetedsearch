@@ -1010,7 +1010,7 @@ class Block
             $query->where('nleft > ' . (int) $parent->nleft);
             $query->where('nright < ' . (int) $parent->nright);
             $resultCategories = \Db::getInstance()->executeS($query);
-            foreach($resultCategories as $oneCategory) {
+            foreach ($resultCategories as $oneCategory) {
                 $categoriesId[] = $oneCategory['id_category'];
             }
         }
