@@ -993,6 +993,9 @@ class Block
         if (true === defined('_PS_FACETED_NEWCOUNT_') && null !== _PS_FACETED_NEWCOUNT_) {
             $categoryCount = (bool) _PS_FACETED_NEWCOUNT_;
         }
+        if (\Tools::getValue('newCategoryCount') !== false) {
+            $categoryCount = (bool) \Tools::getValue('newCategoryCount');
+        }
         $results = $filteredSearchAdapter->valueCount('id_category', $categoryCount);
 
         $categoriesId = [];
@@ -1034,6 +1037,16 @@ class Block
                 $categoryArray[$idCategory]['checked'] = true;
             }
         }
+        $logFile = \_PS_ROOT_DIR_ . '/var/logs/facetedsearch-count-' . date('Y-m-d') . '.log';
+        file_put_contents(
+            $logFile, 
+            sprintf(
+                "%s - category block values : \n%s\n",
+                $categoryCount === true ? 'After' : 'Before',
+                json_encode($categoryArray, JSON_PRETTY_PRINT)
+            ), 
+            FILE_APPEND
+        );
 
         $categoryBlock = [
             'type_lite' => 'category',
