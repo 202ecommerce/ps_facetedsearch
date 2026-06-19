@@ -972,6 +972,7 @@ class Block
      */
     private function getCategoriesBlock($filter, $selectedFilters, $idLang, $parent)
     {
+        $timeBegin = time();
         $filteredSearchAdapter = $this->searchAdapter->getFilteredSearchAdapter('id_category');
         $this->addCategoriesBlockFilters($filteredSearchAdapter, $parent);
 
@@ -1038,11 +1039,15 @@ class Block
             }
         }
         $logFile = \_PS_ROOT_DIR_ . '/var/logs/facetedsearch-count-' . date('Y-m-d') . '.log';
+        $timeEnd = time();
         file_put_contents(
             $logFile, 
             sprintf(
-                "%s - category block values : \n%s\n",
+                "%s - category block values for %s - %s (duration %s seconds) : \n%s\n",
                 $categoryCount === true ? 'After' : 'Before',
+                $parent->id_category,
+                isset($parent->name)? $parent->name : 'no parent',
+                $timeEnd - $timeBegin,
                 json_encode($categoryArray, JSON_PRETTY_PRINT)
             ), 
             FILE_APPEND
